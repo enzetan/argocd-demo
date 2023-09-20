@@ -4,12 +4,12 @@ metadata:
   name: hashtag
   namespace: kokiri
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: hashtag
   template:
-    metadata:
+    metadata:s
       labels:
         app: hashtag
     spec:
