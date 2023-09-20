@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hashtag
+  name: gateway
   namespace: kokiri
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
-      app: hashtag
+      app: gateway
   template:
     metadata:
       labels:
-        app: hashtag
+        app: gateway
     spec:
       containers:
-        - image: "harbor.molygoo.com/yahaha/kokiri-hashtag:feat-common-ez-db66c1e3"
-          name: hashtag
+        - image: "harbor.molygoo.com/yahaha/kokiri-gateway:main-1762a0ff"
+          name: gateway
           ports:
             - name: tcp-20982
               containerPort: 20982
@@ -31,10 +31,15 @@ spec:
               value: "http://172.18.190.169:18080"
           resources:
             limits:
-              cpu: '2'
-              memory: 4Gi
+              cpu: '1'
+              memory: 2Gi
             requests:
               cpu: 100m
               memory: 1Gi
       imagePullSecrets:
         - name: harbor-molygoo-reg
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
