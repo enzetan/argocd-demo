@@ -9,7 +9,7 @@ spec:
     matchLabels:
       app: hashtag
   template:
-    metadata:s
+    metadata:
       labels:
         app: hashtag
     spec:
