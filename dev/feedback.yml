@@ -31,8 +31,8 @@ spec:
               value: "http://172.18.190.169:18080"
           resources:
             limits:
-              cpu: '2'
-              memory: 4Gi
+              cpu: '1'
+              memory: 2Gi
             requests:
               cpu: 100m
               memory: 1Gi

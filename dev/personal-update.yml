@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: personal-update
+  namespace: kokiri
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: personal-update
+  template:
+    metadata:
+      labels:
+        app: personal-update
+    spec:
+      containers:
+        - image: "harbor.molygoo.com/yahaha/kokiri-personal-update:feat-common-ez-db66c1e3"
+          name: personal-update
+          ports:
+            - name: tcp-20982
+              containerPort: 20982
+              protocol: TCP
+            - name: tcp-50052
+              containerPort: 50052
+              protocol: TCP
+            - name: tcp-8080
+              containerPort: 8080
+              protocol: TCP
+          env:
+            - name: APOLLO_CONFIG_SERVICE
+              value: "http://172.18.190.169:18080"
+          resources:
+            limits:
+              cpu: '2'
+              memory: 4Gi
+            requests:
+              cpu: 100m
+              memory: 1Gi
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 5
+            timeoutSeconds: 1
+            periodSeconds: 5
+            successThreshold: 1
+            failureThreshold: 5
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 5
+            timeoutSeconds: 1
+            periodSeconds: 5
+            successThreshold: 1
+            failureThreshold: 5
+      imagePullSecrets:
+        - name: harbor-molygoo-reg
