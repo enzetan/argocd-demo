@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: liquibase
+  namespace: kokiri
+labels:
+  app: liquibase
+spec:
+  backoffLimit: 4
+  template:
+    spec:
+      containers:
+        - name: liquibase
+          image: "harbor.molygoo.com/yahaha/kokiri-liquibase:feat-campaign-xz-14ea3225"
+          env:
+            - name: APOLLO_CONFIG_SERVICE
+              value: "http://172.18.190.169:18080"
+      restartPolicy: Never
+      imagePullSecrets:
+        - name: harbor-molygoo-reg
