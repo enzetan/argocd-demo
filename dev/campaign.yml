@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: campaign
+  namespace: kokiri
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: campaign
+  template:
+    metadata:
+      labels:
+        app: campaign
+    spec:
+      containers:
+        - image: "harbor.molygoo.com/yahaha/kokiri-campaign:feat-campaign-xz-14ea3225"
+          name: campaign
+          ports:
+            - name: tcp-20982
+              containerPort: 20982
+              protocol: TCP
+            - name: tcp-50052
+              containerPort: 50052
+              protocol: TCP
+            - name: tcp-8080
+              containerPort: 8080
+              protocol: TCP
+          env:
+            - name: APOLLO_CONFIG_SERVICE
+              value: "http://172.18.190.169:18080"
+          resources:
+            limits:
+              cpu: '1'
+              memory: 2Gi
+            requests:
+              cpu: 100m
+              memory: 1Gi
+      imagePullSecrets:
+        - name: harbor-molygoo-reg
