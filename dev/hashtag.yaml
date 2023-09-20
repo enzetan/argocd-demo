@@ -14,7 +14,7 @@ spec:
         app: hashtag
     spec:
       containers:
-        - image: "harbor.molygoo.com/yahaha/kokiri-hashtag:feat-apollo-dynamic-config-128ed4e5"
+        - image: "harbor.molygoo.com/yahaha/kokiri-hashtag:feat-common-ez-db66c1e3"
           name: hashtag
           ports:
             - name: tcp-20982
